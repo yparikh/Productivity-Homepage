@@ -1,4 +1,5 @@
 import React, { Component} from "react";
+import Header from "./Header";
 import {useState} from 'react';
 import Modal from "./components/Modal";
 import axios from "axios";
@@ -30,6 +31,7 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 class App extends Component {
+	
   constructor(props) {
     super(props);
     this.state = {
@@ -43,6 +45,7 @@ class App extends Component {
       },
     };
   }
+
 
   
   
@@ -313,7 +316,8 @@ class App extends Component {
   render() {
     return (
       <main className="container">
-        <h1 className="text-black text-center my-4">Homepage</h1>
+	  <Header/>
+        <h1 className="text-black text-center my-4">Task Tracker</h1>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">

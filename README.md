@@ -7,7 +7,7 @@ Productivity homepage allows users to manage their productivity needs such as pl
 
 The project was developed using React for the frontend and Django for the backend. 
 
-## Project Setup
+## Project Installation & Local Setup
 
  Open the terminal:
  ```
@@ -19,6 +19,8 @@ The project was developed using React for the frontend and Django for the backen
  * Run the backend server using `python manage.py runserver`
  * In the Frontend Folder, run the React app with `npm start`
 
+- Make sure all necessary project libraries are installed 
+
 ## Overview & Features
 
 The webpage app lets you:
@@ -29,5 +31,10 @@ The webpage app lets you:
     - Clear Tasks that have been completed
 - View Weather of the location chosen
 - Access a calendar to track of events and dates
+
+
+## Screenshots (Work in Progress)
+![]("/Readme/HomepageScreenshot.png")
+
 ## Credits
 * Material UI Library - [https://mui.com/](https://mui.com/)

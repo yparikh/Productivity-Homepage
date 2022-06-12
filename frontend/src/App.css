@@ -2,8 +2,8 @@
   text-align: center;
 }
 
-.container {
-	max-width: none;
+.appBar{
+	background-color: #1C542D;
 }
 
 .App-logo {

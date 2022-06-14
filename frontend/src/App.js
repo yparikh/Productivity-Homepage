@@ -151,8 +151,9 @@ class App extends Component {
 
   render() {
     return (
-      <main className="container">
+	<body>
 		<Header/>
+      <main className="container">
         <h1 className="text-black text-center my-4">Task Tracker</h1>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
@@ -181,6 +182,7 @@ class App extends Component {
           />
         ) : null}
       </main>
+	</body>
     );
   }
 }

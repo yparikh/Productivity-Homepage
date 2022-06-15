@@ -151,8 +151,8 @@ class App extends Component {
 
   render() {
     return (
-	<body>
-		<Header/>
+	  <div className = "outerDiv">
+	  <Header/>
       <main className="container">
         <h1 className="text-black text-center my-4">Task Tracker</h1>
         <div className="row">
@@ -182,7 +182,7 @@ class App extends Component {
           />
         ) : null}
       </main>
-	</body>
+	  </div>
     );
   }
 }

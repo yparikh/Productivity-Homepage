@@ -43,7 +43,7 @@ export default function Header() {
 	
   return (
 	<ThemeProvider theme={theme}>
-	<Box sx={{ width: '100%' }}>
+	
       <AppBar position="static">
         <Toolbar>
           {/*Inside the IconButton, we 
@@ -87,7 +87,17 @@ export default function Header() {
 			</Box>
           {/* The Typography component applies 
            default font weights and sizes */}
-  
+			<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
           <Typography variant="h6" 
             component="div" sx={{ flexGrow: 1 }}>
             Productivity Homepage
@@ -95,7 +105,7 @@ export default function Header() {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-	  </Box>
+	  
 	</ThemeProvider>
   );
 }

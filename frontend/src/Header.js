@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-  
+import { BrowserRouter as Router, Route, Redirect, Switch, Link, LinkProps } from 'react-router-dom';
+
+//Pages
+import Kanban from './Kanban';
+
 // importing material UI components
 import AppBar from "@mui/material/AppBar";
 import Box from '@mui/material/Box';
@@ -21,25 +25,19 @@ let theme = createTheme({
 });
   
 export default function Header() {
-	const pages = ['Products', 'Pricing', 'Blog'];
+	const pages = ['Kanban', 'Journal', 'Calendar'];
 	
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
+	const [selectedIndex, setSelectedIndex] = React.useState(1);
 
 	  const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
-	  };
-	  const handleOpenUserMenu = (event) => {
-		setAnchorElUser(event.currentTarget);
 	  };
 
 	  const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	  };
 
-	  const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	  };
 	
   return (
 	<ThemeProvider theme={theme}>
@@ -79,7 +77,9 @@ export default function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem 
+					key={page} 
+				>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}

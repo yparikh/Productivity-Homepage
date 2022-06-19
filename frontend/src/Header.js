@@ -1,111 +1,64 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch, Link, LinkProps } from 'react-router-dom';
-
-//Pages
-import Kanban from './Kanban';
+import React from 'react';
 
 // importing material UI components
 import AppBar from "@mui/material/AppBar";
 import Box from '@mui/material/Box';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {styled} from '@mui/system';
 
-let theme = createTheme({
-  palette: {
-	primary: {
-	  main: '#B32428',
-	},
-  },
-});
-  
+
+//Gradient Theme for the Header
+const StyledHeader = styled(AppBar)`
+  background-color: #1fd1f9;
+  background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+  border-radius: 3px;
+  border: 0;
+  color: white;
+  height: 70px;
+  padding: 0 30px;
+`;
+
 export default function Header() {
-	const pages = ['Kanban', 'Journal', 'Calendar'];
-	
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const pages = ['Kanban', 'Journal', 'Calendar'];
 
-	  const handleOpenNavMenu = (event) => {
-		setAnchorElNav(event.currentTarget);
-	  };
-
-	  const handleCloseNavMenu = () => {
-		setAnchorElNav(null);
-	  };
-
-	
-  return (
-	<ThemeProvider theme={theme}>
-	
-      <AppBar position="static">
-        <Toolbar>
-          {/*Inside the IconButton, we 
-           can render various icons*/}
-		   <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="primary"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            {/*This is a simple Menu 
-             Icon wrapped in Icon */}
-            <MenuIcon />
-          </IconButton>
-		  <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem 
-					key={page} 
-				>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-			</Box>
-          {/* The Typography component applies 
-           default font weights and sizes */}
-			<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-          <Typography variant="h6" 
-            component="div" sx={{ flexGrow: 1 }}>
-            Productivity Homepage
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-	  
-	</ThemeProvider>
-  );
+    return (
+        <StyledHeader position="static">
+            <Toolbar>
+                <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                    width: '50%',
+                    display: 'flex',
+                    flexgrow: 1
+                }}>
+                    Productivity Homepage
+                </Typography>
+                <Box
+                    sx={{
+                    justifyContent: 'flex-end',
+                    width: '50%',
+                    flexgrow: 1,
+                    display: {
+                        xs: 'none',
+                        md: 'flex'
+                    }
+                }}>
+                    {pages.map((page) => (
+                        <Button
+                            key={page}
+                            sx={{
+                            my: 2,
+                            color: 'white',
+                            display: 'block'
+                        }}>
+                            {page}
+                        </Button>
+                    ))}
+                </Box>
+            </Toolbar>
+        </StyledHeader>
+    );
 }

@@ -34,7 +34,7 @@ The webpage app lets you:
 
 
 ## Screenshots (Work in Progress)
-<img src="/Readme/HomepageScreenshot.png" width="300">
+<img src="/Readme/HomepageScreenshotUpdate.png" width="300">
 
 ## Credits
 * Material UI Library - [https://mui.com/](https://mui.com/)

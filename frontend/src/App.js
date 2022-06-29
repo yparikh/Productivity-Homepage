@@ -206,7 +206,7 @@ class App extends Component {
                                 alignItems="flex-start" 
                                 sx={{
                                     p: 2,
-                                    backgroundColor: "#FE7F2D",
+                                    backgroundColor: "#EA907A",
                                     borderRadius: 3
                                     }}
                                 >
@@ -236,7 +236,7 @@ class App extends Component {
                             alignItems="flex-start" 
                             sx={{
                                 p: 2,
-                                backgroundColor: "#FCCA46",
+                                backgroundColor: "#FBC687",
                                 borderRadius: 3
                             }}
                             >
@@ -263,7 +263,7 @@ class App extends Component {
                             alignItems="flex-start" 
                             sx={{
                                 p: 2,
-                                backgroundColor: "#619B8A",
+                                backgroundColor: "#BEDBBB",
                                 borderRadius: 3
                             }}
                             >

@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {Link as RouterLink, MemoryRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router-dom/server';
 
 // importing material UI components
 import AppBar from "@mui/material/AppBar";
@@ -7,7 +10,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/system';
-
 
 //Gradient Theme for the Header
 const StyledHeader = styled(AppBar)`
@@ -19,6 +21,45 @@ const StyledHeader = styled(AppBar)`
   height: 70px;
   padding: 0 30px;
 `;
+
+function Router(props) {
+    const {children} = props;
+    if (typeof window === 'undefined') {
+        return <StaticRouter location="/kanban">{children}</StaticRouter>;
+    }
+
+    return (
+        <MemoryRouter initialEntries={['/kanban']} initialIndex={0}>
+            {children}
+        </MemoryRouter>
+    );
+}
+
+Router.propTypes = {
+    children: PropTypes.node
+};
+
+function ButtonLink(props) {
+    const {to} = props;
+
+    const renderLink = React.useMemo(() => React.forwardRef(function Link(itemProps, ref) {
+        return <RouterLink to={to} ref={ref} {...itemProps} role={undefined}/>;
+    }), [to],);
+
+    return (
+        <Button
+            component={renderLink}
+            sx={{
+            my: 2,
+            color: 'white',
+            display: 'block'
+        }}></Button>
+    );
+}
+
+ButtonLink.propTypes = {
+    to: PropTypes.string.isRequired
+};
 
 export default function Header() {
     const pages = ['Kanban', 'Journal', 'Calendar'];
@@ -47,15 +88,13 @@ export default function Header() {
                     }
                 }}>
                     {pages.map((page) => (
-                        <Button
+                        <ButtonLink
                             key={page}
-                            sx={{
-                            my: 2,
-                            color: 'white',
-                            display: 'block'
+                            to={"/" + {
+                            page
                         }}>
                             {page}
-                        </Button>
+                        </ButtonLink>
                     ))}
                 </Box>
             </Toolbar>

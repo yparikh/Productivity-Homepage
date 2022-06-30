@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Link as RouterLink, MemoryRouter} from 'react-router-dom';
-import {StaticRouter} from 'react-router-dom/server';
+import {Link} from 'react-router-dom';
 
 // importing material UI components
 import AppBar from "@mui/material/AppBar";
@@ -21,45 +19,6 @@ const StyledHeader = styled(AppBar)`
   height: 70px;
   padding: 0 30px;
 `;
-
-function Router(props) {
-    const {children} = props;
-    if (typeof window === 'undefined') {
-        return <StaticRouter location="/kanban">{children}</StaticRouter>;
-    }
-
-    return (
-        <MemoryRouter initialEntries={['/kanban']} initialIndex={0}>
-            {children}
-        </MemoryRouter>
-    );
-}
-
-Router.propTypes = {
-    children: PropTypes.node
-};
-
-function ButtonLink(props) {
-    const {to} = props;
-
-    const renderLink = React.useMemo(() => React.forwardRef(function Link(itemProps, ref) {
-        return <RouterLink to={to} ref={ref} {...itemProps} role={undefined}/>;
-    }), [to],);
-
-    return (
-        <Button
-            component={renderLink}
-            sx={{
-            my: 2,
-            color: 'white',
-            display: 'block'
-        }}></Button>
-    );
-}
-
-ButtonLink.propTypes = {
-    to: PropTypes.string.isRequired
-};
 
 export default function Header() {
 
@@ -86,9 +45,37 @@ export default function Header() {
                         md: 'flex'
                     }
                 }}>
-                    <ButtonLink to={"/kanban"}>
+                    <Button
+                        component={Link}
+                        to="/kanban"
+                        sx={{
+                        my: 2,
+                        color: 'white',
+                        display: 'block'
+                    }}>
                         Kanban
-                    </ButtonLink>
+                    </Button>
+                    <Button
+                        component={Link}
+                        to="/journal"
+                        sx={{
+                        my: 2,
+                        color: 'white',
+                        display: 'block'
+                    }}>
+                        Journal
+                    </Button>
+                    <Button
+                        component={Link}
+                        to="/kanban"
+                        sx={{
+                        my: 2,
+                        color: 'white',
+                        display: 'block'
+                    }}>
+                        Calendar
+                    </Button>
+
                 </Box>
             </Toolbar>
         </StyledHeader>

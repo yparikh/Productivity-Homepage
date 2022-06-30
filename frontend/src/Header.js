@@ -62,7 +62,6 @@ ButtonLink.propTypes = {
 };
 
 export default function Header() {
-    const pages = ['Kanban', 'Journal', 'Calendar'];
 
     return (
         <StyledHeader position="static">
@@ -87,15 +86,9 @@ export default function Header() {
                         md: 'flex'
                     }
                 }}>
-                    {pages.map((page) => (
-                        <ButtonLink
-                            key={page}
-                            to={"/" + {
-                            page
-                        }}>
-                            {page}
-                        </ButtonLink>
-                    ))}
+                    <ButtonLink to={"/kanban"}>
+                        Kanban
+                    </ButtonLink>
                 </Box>
             </Toolbar>
         </StyledHeader>

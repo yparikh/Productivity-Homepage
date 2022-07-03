@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-// importing material UI components
+/* importing material UI components */
 import AppBar from "@mui/material/AppBar";
 import Box from '@mui/material/Box';
 import Toolbar from "@mui/material/Toolbar";
@@ -9,11 +9,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/system';
 
-//Gradient Theme for the Header
+/* Gradient Theme for the Header */
 const StyledHeader = styled(AppBar)`
   background-color: #1fd1f9;
   background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
-  border-radius: 3px;
   border: 0;
   color: white;
   height: 70px;
@@ -33,7 +32,7 @@ export default function Header() {
                     display: 'flex',
                     flexgrow: 1
                 }}>
-                    Productivity Homepage
+                    Productivity Manager
                 </Typography>
                 <Box
                     sx={{
@@ -75,7 +74,6 @@ export default function Header() {
                     }}>
                         Calendar
                     </Button>
-
                 </Box>
             </Toolbar>
         </StyledHeader>

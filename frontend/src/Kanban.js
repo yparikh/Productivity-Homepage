@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-import Header from "./Header";
-
 import Modal from "./components/Modal";
 import axios from "axios";
 import '@fontsource/roboto/300.css';
@@ -16,11 +14,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import {minWidth} from "@mui/system";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
-
-
 
 class App extends Component {
 
@@ -133,32 +130,34 @@ class App extends Component {
             .filter((item) => item.completed === viewCompleted);
 
         return newItems.map((item) => (
-            <li
-                key={item.id}
-                className="list-group-item d-flex justify-content-between align-items-center">
-                <span
-                    className={`todo-title mr-2 ${this.state.viewCompleted
-                    ? "completed-todo"
-                    : ""}`}
-                    title={item.description}>
-                    {item.title}
-                </span>
-                <span>
-                    <Button
-                        variant="contained"
-                        className="btn btn-secondary mr-2"
-                        onClick={() => this.editItem(item)}>
-                        Edit
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        className="btn btn-danger"
-                        onClick={() => this.handleDelete(item)}>
-                        Delete
-                    </Button>
-                </span>
-            </li>
+            <Grid item key={item.id}>
+                <Card
+                    className="Card-group-item d-flex justify-content-between align-items-center"
+                    sx={{
+                    maxHeight: 150,
+                    minWidth: "100%"
+                }}>
+                    <CardContent>
+                        <Typography variant="h6" component="div">
+                            {item.title}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            {item.description}
+                        </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing={true}>
+                        <Button className="btn btn-secondary mr-2" onClick={() => this.editItem(item)}>
+                            Edit
+                        </Button>
+                        <Button
+                            color="error"
+                            className="btn btn-danger"
+                            onClick={() => this.handleDelete(item)}>
+                            Delete
+                        </Button>
+                    </CardActions>
+                </Card>
+            </Grid>
         ));
     };
 
@@ -166,115 +165,120 @@ class App extends Component {
         return (
             <div className="outerDiv">
                 <main className="container">
-                    <h1 className="text-black text-center my-4">Kanban Board
-                    </h1>
-                    <Box 
-                        sx={{ 
-                            p:2,
-                            m:2,
+                    <Typography
+                        component="h1"
+                        variant="h3"
+                        align={"center"}
+                        sx={{
+                        ml: -3
+                    }}>
+                        Kanban Board
+                    </Typography>
+                    <div className="kanbanBoard">
+                        <Box
+                            sx={{
                             display: 'grid',
+                            mt: 5,
+                            gap: 5,
                             gridTemplateColumns: 'repeat(3, 1fr)'
                         }}>
-                        <Typography variant="h6" component="div" color={'Black'} align= {"justify"}>
-                            Not Started
-                        </Typography>
-                        <Typography variant="h6" component="div" color={'Black'} align= {"justify"}>
-                            In Progress
-                        </Typography>
-                        <Typography variant="h6" component="div" color={'Black'} align= {"center"}>
-                            Completed
-                        </Typography>
-
-                    </Box>
-                    
-                    <div className="kanbanBoard">
-                        <Box 
-                            sx={{ 
-                                display: 'grid', 
-                                gap: 5,
-                                gridTemplateColumns: 'repeat(3, 1fr)',
-                                minHeight: 500
-                            }}
-                        >
-                            <Grid container 
-                                className="NotStarted"
-                                spacing = {3}
-                                justifyContent="center"
-                                alignItems="flex-start" 
+                            <Typography
+                                variant="h6"
+                                color={'Black'}
+                                align={"center"}
                                 sx={{
-                                    p: 2,
-                                    backgroundColor: "#EA907A",
-                                    borderRadius: 3
-                                    }}
-                                >
-                                
-                                
-                                <Card
-                                    sx={{ maxHeight: 150 }}>
-                                    <CardContent>
-                                        <Typography variant="h6" component="div">
-                                        Task Name
-                                        </Typography>
-                                        <Typography color="text.secondary">
-                                        description
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions disableSpacing= {true}>
-                                        <Button size="small">Edit</Button>
-                                        <Button size="small" color="error">Delete</Button>
-                                    </CardActions>
-                                </Card>
-                                
+                                ml: -3
+                            }}>
+                                Not Started
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                color={'Black'}
+                                align={"center"}
+                                sx={{
+                                ml: -3
+                            }}>
+                                In Progress
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                color={'Black'}
+                                align={"center"}
+                                sx={{
+                                ml: -3
+                            }}>
+                                Completed
+                            </Typography>
+                            <Grid
+                                container
+                                item
+                                className="NotStarted"
+                                justifyContent="flex-start"
+                                alignItems="flex-start"
+                                sx={{
+                                p: 2,
+                                minHeight: 500,
+                                backgroundColor: "#EA907A",
+                                borderRadius: 3
+                            }}>
+                                {this.renderItems()}
+
                             </Grid>
-                            <Grid container 
-                            className="InProgress" 
-                            spacing = {3}
-                            justifyContent="center"
-                            alignItems="flex-start" 
-                            sx={{
+                            <Grid
+                                container
+                                item
+                                className="InProgress"
+                                
+                                justifyContent="center"
+                                alignItems="flex-start"
+                                sx={{
                                 p: 2,
                                 backgroundColor: "#FBC687",
                                 borderRadius: 3
-                            }}
-                            >
+                            }}>
                                 <Card
-                                    sx={{ maxHeight: 150 }}>
+                                    sx={{
+                                    maxHeight: 150
+                                }}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
-                                        Task Name
+                                            Task Name
                                         </Typography>
                                         <Typography color="text.secondary">
-                                        description
+                                            description
                                         </Typography>
                                     </CardContent>
-                                    <CardActions disableSpacing= {true}>
+                                    <CardActions disableSpacing={true}>
                                         <Button size="small">Edit</Button>
                                         <Button size="small" color="error">Delete</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
-                            <Grid container 
-                            className="Completed" 
-                            spacing = {3}
-                            justifyContent="center"
-                            alignItems="flex-start" 
-                            sx={{
+                            <Grid
+                                container
+                                item
+                                className="Completed"
+                                justifyContent="center"
+                                alignItems="flex-start"
+                                sx={{
                                 p: 2,
                                 backgroundColor: "#BEDBBB",
                                 borderRadius: 3
-                            }}
-                            >
+                            }}>
                                 <Card
-                                    sx={{ maxHeight: 150 }}>
+                                    sx={{
+                                    maxHeight: 150,
+                                    minWidth: 150
+                                }}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
-                                        Task Name
+                                            Task Name
                                         </Typography>
                                         <Typography color="text.secondary">
-                                        description
+                                            this
                                         </Typography>
                                     </CardContent>
-                                    <CardActions disableSpacing= {true}>
+                                    <CardActions disableSpacing={true}>
                                         <Button size="small">Edit</Button>
                                         <Button size="small" color="error">Delete</Button>
                                     </CardActions>
@@ -282,7 +286,6 @@ class App extends Component {
                             </Grid>
                         </Box>
                     </div>
-
                     {this.state.modal
                         ? (<Modal
                             activeItem={this.state.activeItem}

@@ -14,7 +14,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {minWidth} from "@mui/system";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {indigo, red} from "@mui/material/colors";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -101,7 +104,6 @@ class App extends Component {
     };
 
     renderTabList = () => {
-
         return (
             <Tabs className="nav nav-tabs">
                 <Tab
@@ -130,13 +132,14 @@ class App extends Component {
             .filter((item) => item.completed === viewCompleted);
 
         return newItems.map((item) => (
-            <Grid item key={item.id}>
-                <Card
-                    className="Card-group-item d-flex justify-content-between align-items-center"
-                    sx={{
-                    maxHeight: 150,
-                    minWidth: "100%"
-                }}>
+            <Grid
+                item
+                key={item.id}
+                sx={{
+                maxHeight: 150,
+                minWidth: "100%"
+            }}>
+                <Card className="generatedCard">
                     <CardContent>
                         <Typography variant="h6" component="div">
                             {item.title}
@@ -146,15 +149,24 @@ class App extends Component {
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing={true}>
-                        <Button className="btn btn-secondary mr-2" onClick={() => this.editItem(item)}>
-                            Edit
-                        </Button>
-                        <Button
-                            color="error"
-                            className="btn btn-danger"
-                            onClick={() => this.handleDelete(item)}>
-                            Delete
-                        </Button>
+                        <IconButton
+                            aria-label="edit"
+                            onClick={() => this.editItem(item)}
+                            size = "large"
+                            sx={{
+                            color: indigo[400]
+                        }}>
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton
+                            aria-label="delete"
+                            onClick={() => this.handleDelete(item)}
+                            size = "large"
+                            sx={{
+                            color: red[300]
+                        }}>
+                            <DeleteIcon/>
+                        </IconButton>
                     </CardActions>
                 </Card>
             </Grid>
@@ -228,7 +240,6 @@ class App extends Component {
                                 container
                                 item
                                 className="InProgress"
-                                
                                 justifyContent="center"
                                 alignItems="flex-start"
                                 sx={{

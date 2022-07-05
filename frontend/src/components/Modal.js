@@ -1,88 +1,81 @@
-import React, { Component } from "react";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
+import React, {Component} from "react";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default class CustomModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeItem: this.props.activeItem,
-    };
-  }
-
-  handleChange = (e) => {
-    let { name, value } = e.target;
-
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeItem: this.props.activeItem
+        };
     }
 
-    const activeItem = { ...this.state.activeItem, [name]: value };
+    handleChange = (e) => {
+        let {name, value} = e.target;
 
-    this.setState({ activeItem });
-  };
+        if (e.target.type === "checkbox") {
+            value = e.target.checked;
+        }
 
-  render() {
-    const { toggle, onSave } = this.props;
+        const activeItem = {
+            ...this.state.activeItem,
+            [name]: value
+        };
 
-    return (
-      <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
-        <ModalBody>
-          <Form>
-            <FormGroup>
-              <Label for="todo-title">Title</Label>
-              <Input
-                type="text"
-                id="todo-title"
-                name="title"
-                value={this.state.activeItem.title}
-                onChange={this.handleChange}
-                placeholder="Enter Todo Title"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="todo-description">Description</Label>
-              <Input
-                type="text"
-                id="todo-description"
-                name="description"
-                value={this.state.activeItem.description}
-                onChange={this.handleChange}
-                placeholder="Enter Todo description"
-              />
-            </FormGroup>
-            <FormGroup check>
-              <Label check>
-                <Input
-                  type="checkbox"
-                  name="completed"
-                  checked={this.state.activeItem.completed}
-                  onChange={this.handleChange}
-                />
-                Completed
-              </Label>
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            color="success"
-            onClick={() => onSave(this.state.activeItem)}
-          >
-            Save
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
+        this.setState({activeItem});
+    };
+
+    render() {
+        const {toggle, onSave} = this.props;
+
+        return (
+            <Dialog open={true} toggle={toggle}>
+                <DialogTitle toggle={toggle}>Kanban Task</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        required
+                        id="outlined-required"
+                        label="Required"
+                        defaultValue="Enter Task Title"
+                        value={this.state.activeItem.title}
+                        onChange={this.handleChange}/>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="Description"
+                        defaultValue="Enter Task Description"
+                        value={this.state.activeItem.description}
+                        onChange={this.handleChange}/>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+                        Save
+                    </Button>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <Select
+                            labelId="task-type-select-label"
+                            id="task-type-select"
+                            value={this.state}
+                            label="Task Type"
+                            onChange={this.handleChange}>
+                            <MenuItem value={10}>Not Started</MenuItem>
+                            <MenuItem value={20}>In Progress</MenuItem>
+                            <MenuItem value={this.state.activeItem.completed}>Completed</MenuItem>
+                        </Select>
+                    </FormControl>
+                </DialogActions>
+            </Dialog>
+        );
+    }
 }

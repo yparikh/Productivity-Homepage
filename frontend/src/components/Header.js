@@ -11,13 +11,14 @@ import {styled} from '@mui/system';
 
 /* Gradient Theme for the Header */
 const StyledHeader = styled(AppBar)`
-  background-color: #1fd1f9;
-  background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+  background-color: #ee8c68;
+  background-image: linear-gradient(315deg, #ee8c68 0%, #eb6b9d 74%);
   border: 0;
   color: white;
   height: 70px;
   padding: 0 30px;
 `;
+
 
 export default function Header() {
 

@@ -35,37 +35,33 @@ export default class CustomModal extends Component {
 
     render() {
         const {toggle, onSave} = this.props;
-
         return (
-            <Dialog open={true} toggle={toggle}>
-                <DialogTitle toggle={toggle}>Kanban Task</DialogTitle>
+            <Dialog open={true}>
+                <DialogTitle>Kanban Task</DialogTitle>
                 <DialogContent>
                     <TextField
                         fullWidth
                         margin="normal"
                         required
                         id="outlined-required"
-                        label="Required"
-                        defaultValue="Enter Task Title"
-                        value={this.state.activeItem.title}
-                        onChange={this.handleChange}/>
+                        label="Title"
+                        name="Title"
+                        defaultValue={this.state.activeItem.title}
+                        onChange={this.handleChange}
+                        />
                     <TextField
                         fullWidth
                         margin="normal"
+                        id="outlined-name"
                         label="Description"
-                        defaultValue="Enter Task Description"
-                        value={this.state.activeItem.description}
+                        name="Description"
+                        defaultValue={this.state.activeItem.description}
                         onChange={this.handleChange}/>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
-                        Save
-                    </Button>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="select-label">Task Progress</InputLabel>
                         <Select
-                            labelId="task-type-select-label"
-                            id="task-type-select"
+                            labelId="task-progress-select-label"
+                            id="task-progress-select"
                             value={this.state}
                             label="Task Type"
                             onChange={this.handleChange}>
@@ -74,6 +70,14 @@ export default class CustomModal extends Component {
                             <MenuItem value={this.state.activeItem.completed}>Completed</MenuItem>
                         </Select>
                     </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+                        Save
+                    </Button>
+                    <Button color="primary" onClick={() => toggle()}>
+                        Close
+                    </Button>
                 </DialogActions>
             </Dialog>
         );

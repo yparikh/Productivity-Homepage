@@ -1,25 +1,26 @@
 import React from "react";
-import Header from "./Header";
-import Kanban from "./Kanban";
-import Journal from "./Journal";
+import Header from "./components/Header";
+import Kanban from "./views/Kanban";
+import Journal from "./views/Journal";
 import {Routes, Route} from "react-router-dom";
 import axios from "axios";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import {HTML5Backend} from 'react-dnd-html5-backend'
+import {DndProvider} from 'react-dnd'
+import "@fontsource/jost";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 export default function App() {
     return (
-        <div className="outerDiv">
-            <Header/>
-            <Routes>
-                <Route path="kanban" element={< Kanban />}/>
-                <Route path="journal" element={< Journal />}/>
-            </Routes>
-        </div>
+        <DndProvider backend={HTML5Backend}>
+            <div>
+                <Header/>
+                <Routes>
+                    <Route path="kanban" element={< Kanban />}/>
+                    <Route path="journal" element={< Journal />}/>
+                </Routes>
+            </div>
+        </DndProvider>
     );
 }

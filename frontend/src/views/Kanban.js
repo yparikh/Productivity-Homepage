@@ -1,10 +1,6 @@
 import React, {Component} from "react";
-import Modal from "./components/Modal";
+import Modal from "../components/Modal";
 import axios from "axios";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
@@ -17,12 +13,15 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import {indigo, red} from "@mui/material/colors";
+import {useDrag} from 'react-dnd'
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
-class App extends Component {
+class Kanban extends Component {
 
     constructor(props) {
         super(props);
@@ -152,7 +151,7 @@ class App extends Component {
                         <IconButton
                             aria-label="edit"
                             onClick={() => this.editItem(item)}
-                            size = "large"
+                            size="large"
                             sx={{
                             color: indigo[400]
                         }}>
@@ -161,7 +160,7 @@ class App extends Component {
                         <IconButton
                             aria-label="delete"
                             onClick={() => this.handleDelete(item)}
-                            size = "large"
+                            size="large"
                             sx={{
                             color: red[300]
                         }}>
@@ -177,47 +176,67 @@ class App extends Component {
         return (
             <div className="outerDiv">
                 <main className="container">
-                    <Typography
-                        component="h1"
-                        variant="h3"
-                        align={"center"}
+                    <Box
+                        component="div"
                         sx={{
-                        ml: -3
+                        display: 'flex'
                     }}>
-                        Kanban Board
-                    </Typography>
+                        <ViewColumnIcon
+                            sx={{
+                            mt: 3,
+                            fontSize: 60
+                        }}/>
+                        <Typography
+                            component="h1"
+                            variant="h3"
+                            sx={{
+                            ml: 0,
+                            mt: 3
+                        }}>
+
+                            Kanban Board
+                        </Typography>
+                    </Box>
                     <div className="kanbanBoard">
                         <Box
                             sx={{
                             display: 'grid',
                             mt: 5,
-                            gap: 5,
+                            columnGap: 5,
+                            rowGap: 1,
                             gridTemplateColumns: 'repeat(3, 1fr)'
                         }}>
                             <Typography
                                 variant="h6"
                                 color={'Black'}
-                                align={"center"}
                                 sx={{
-                                ml: -3
+                                ml: 0
                             }}>
                                 Not Started
+                                <IconButton
+                                    aria-label="addItem"
+                                    onClick={this.createItem}
+                                    size="large"
+                                    sx={{
+                                    ml: 2,
+                                    color: red[300]
+                                }}>
+                                    <AddBoxIcon/>
+                                </IconButton>
                             </Typography>
                             <Typography
                                 variant="h6"
                                 color={'Black'}
-                                align={"center"}
                                 sx={{
-                                ml: -3
+                                ml: 0
                             }}>
                                 In Progress
                             </Typography>
                             <Typography
                                 variant="h6"
                                 color={'Black'}
-                                align={"center"}
                                 sx={{
-                                ml: -3
+                                ml: 0
                             }}>
                                 Completed
                             </Typography>
@@ -309,4 +328,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Kanban;

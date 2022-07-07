@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
-import {indigo, red} from "@mui/material/colors";
+import {green, indigo, orange, red, yellow} from "@mui/material/colors";
 import {useDrag} from 'react-dnd'
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -26,13 +26,13 @@ class Kanban extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            viewCompleted: false,
+            viewProgress: 0,
             todoList: [],
             modal: false,
             activeItem: {
                 title: "",
                 description: "",
-                completed: false
+                progress: 0
             }
         };
     }
@@ -78,7 +78,7 @@ class Kanban extends Component {
         const item = {
             title: "",
             description: "",
-            completed: false
+            progress: 0
         };
 
         this.setState({
@@ -94,49 +94,29 @@ class Kanban extends Component {
         });
     };
 
-    displayCompleted = (status) => {
-        if (status) {
-            return this.setState({viewCompleted: true});
+    displayProgress = (status) => {
+        if (status === "Not Started") {
+            return this.setState({viewProgress: 2});
+        } else if (status === "In Progress") {
+            return this.setState({viewProgress: 1});
+        } else {
+            return this.setState({viewCompleted: 0});
         }
-
-        return this.setState({viewCompleted: false});
     };
 
-    renderTabList = () => {
-        return (
-            <Tabs className="nav nav-tabs">
-                <Tab
-                    value="Complete"
-                    label="Complete"
-                    onClick={() => this.displayCompleted(true)}
-                    className={this.state.viewCompleted
-                    ? "nav-link active"
-                    : "nav-link"}></Tab>
-                <Tab
-                    value="Incomplete"
-                    label="Incomplete"
-                    onClick={() => this.displayCompleted(false)}
-                    className={this.state.viewCompleted
-                    ? "nav-link"
-                    : "nav-link active"}></Tab>
-            </Tabs>
-        );
-    };
-
-    renderItems = () => {
-        const {viewCompleted} = this.state;
+    renderItems = (status) => {
         const newItems = this
             .state
             .todoList
-            .filter((item) => item.completed === viewCompleted);
+            .filter((item) => item.progress === status);
 
         return newItems.map((item) => (
             <Grid
                 item
                 key={item.id}
                 sx={{
-                maxHeight: 150,
-                minWidth: "100%"
+                minWidth: "100%",
+                p: 2
             }}>
                 <Card className="generatedCard">
                     <CardContent>
@@ -193,7 +173,6 @@ class Kanban extends Component {
                             ml: 0,
                             mt: 3
                         }}>
-
                             Kanban Board
                         </Typography>
                     </Box>
@@ -231,6 +210,16 @@ class Kanban extends Component {
                                 ml: 0
                             }}>
                                 In Progress
+                                <IconButton
+                                    aria-label="addItem"
+                                    onClick={this.createItem}
+                                    size="large"
+                                    sx={{
+                                    ml: 2,
+                                    color: orange[300]
+                                }}>
+                                    <AddBoxIcon/>
+                                </IconButton>
                             </Typography>
                             <Typography
                                 variant="h6"
@@ -239,20 +228,30 @@ class Kanban extends Component {
                                 ml: 0
                             }}>
                                 Completed
+                                <IconButton
+                                    aria-label="addItem"
+                                    onClick={this.createItem}
+                                    size="large"
+                                    sx={{
+                                    ml: 2,
+                                    color: green[300]
+                                }}>
+                                    <AddBoxIcon/>
+                                </IconButton>
                             </Typography>
                             <Grid
                                 container
                                 item
                                 className="NotStarted"
-                                justifyContent="flex-start"
+                                justifyContent="center"
                                 alignItems="flex-start"
+                                spacing={2}
                                 sx={{
-                                p: 2,
                                 minHeight: 500,
                                 backgroundColor: "#EA907A",
                                 borderRadius: 3
                             }}>
-                                {this.renderItems()}
+                                {this.renderItems(0)}
 
                             </Grid>
                             <Grid
@@ -261,28 +260,12 @@ class Kanban extends Component {
                                 className="InProgress"
                                 justifyContent="center"
                                 alignItems="flex-start"
+                                spacing={2}
                                 sx={{
-                                p: 2,
                                 backgroundColor: "#FBC687",
                                 borderRadius: 3
                             }}>
-                                <Card
-                                    sx={{
-                                    maxHeight: 150
-                                }}>
-                                    <CardContent>
-                                        <Typography variant="h6" component="div">
-                                            Task Name
-                                        </Typography>
-                                        <Typography color="text.secondary">
-                                            description
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions disableSpacing={true}>
-                                        <Button size="small">Edit</Button>
-                                        <Button size="small" color="error">Delete</Button>
-                                    </CardActions>
-                                </Card>
+                                {this.renderItems(1)}
                             </Grid>
                             <Grid
                                 container
@@ -290,29 +273,12 @@ class Kanban extends Component {
                                 className="Completed"
                                 justifyContent="center"
                                 alignItems="flex-start"
+                                spacing={2}
                                 sx={{
-                                p: 2,
                                 backgroundColor: "#BEDBBB",
                                 borderRadius: 3
                             }}>
-                                <Card
-                                    sx={{
-                                    maxHeight: 150,
-                                    minWidth: 150
-                                }}>
-                                    <CardContent>
-                                        <Typography variant="h6" component="div">
-                                            Task Name
-                                        </Typography>
-                                        <Typography color="text.secondary">
-                                            this
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions disableSpacing={true}>
-                                        <Button size="small">Edit</Button>
-                                        <Button size="small" color="error">Delete</Button>
-                                    </CardActions>
-                                </Card>
+                                {this.renderItems(2)}
                             </Grid>
                         </Box>
                     </div>

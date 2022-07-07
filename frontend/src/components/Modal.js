@@ -45,8 +45,8 @@ export default class CustomModal extends Component {
                         required
                         id="outlined-required"
                         label="Title"
-                        name="Title"
-                        defaultValue={this.state.activeItem.title}
+                        name="title"
+                        value={this.state.activeItem.title}
                         onChange={this.handleChange}
                         />
                     <TextField
@@ -54,18 +54,18 @@ export default class CustomModal extends Component {
                         margin="normal"
                         id="outlined-name"
                         label="Description"
-                        name="Description"
-                        defaultValue={this.state.activeItem.description}
+                        name="description"
+                        value={this.state.activeItem.description}
                         onChange={this.handleChange}/>
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="select-label">Task Progress</InputLabel>
                         <Select
                             labelId="task-progress-select-label"
                             id="task-progress-select"
-                            value={this.state}
+                            value={this.state.activeItem.completed}
                             label="Task Type"
                             onChange={this.handleChange}>
-                            <MenuItem value={10}>Not Started</MenuItem>
+                            <MenuItem value={"Not Started"}>Not Started</MenuItem>
                             <MenuItem value={20}>In Progress</MenuItem>
                             <MenuItem value={this.state.activeItem.completed}>Completed</MenuItem>
                         </Select>

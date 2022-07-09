@@ -2,9 +2,6 @@ import React, {Component} from "react";
 import Modal from "../components/Modal";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -15,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
-import {green, indigo, orange, red, yellow} from "@mui/material/colors";
+import {green, indigo, orange, red} from "@mui/material/colors";
 import {useDrag} from 'react-dnd'
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -92,16 +89,6 @@ class Kanban extends Component {
             activeItem: item,
             modal: !this.state.modal
         });
-    };
-
-    displayProgress = (status) => {
-        if (status === "Not Started") {
-            return this.setState({viewProgress: 2});
-        } else if (status === "In Progress") {
-            return this.setState({viewProgress: 1});
-        } else {
-            return this.setState({viewCompleted: 0});
-        }
     };
 
     renderItems = (status) => {
@@ -243,7 +230,8 @@ class Kanban extends Component {
                                 container
                                 item
                                 className="NotStarted"
-                                justifyContent="center"
+                                justifyContent="flex-start"
+                                alignContent= "flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{
@@ -258,7 +246,8 @@ class Kanban extends Component {
                                 container
                                 item
                                 className="InProgress"
-                                justifyContent="center"
+                                justifyContent="flex-start"
+                                alignContent= "flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{
@@ -271,7 +260,8 @@ class Kanban extends Component {
                                 container
                                 item
                                 className="Completed"
-                                justifyContent="center"
+                                justifyContent="flex-start"
+                                alignContent= "flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{

@@ -21,10 +21,6 @@ export default class CustomModal extends Component {
     handleChange = (e) => {
         let {name, value} = e.target;
 
-        if (e.target.type === "checkbox") {
-            value = e.target.checked;
-        }
-
         const activeItem = {
             ...this.state.activeItem,
             [name]: value
@@ -62,12 +58,13 @@ export default class CustomModal extends Component {
                         <Select
                             labelId="task-progress-select-label"
                             id="task-progress-select"
-                            value={this.state.activeItem.completed}
+                            name="progress"
+                            value={this.state.activeItem.progress}
                             label="Task Type"
                             onChange={this.handleChange}>
-                            <MenuItem value={"Not Started"}>Not Started</MenuItem>
-                            <MenuItem value={20}>In Progress</MenuItem>
-                            <MenuItem value={this.state.activeItem.completed}>Completed</MenuItem>
+                            <MenuItem value={0}>Not Started</MenuItem>
+                            <MenuItem value={1}>In Progress</MenuItem>
+                            <MenuItem value={2}>Completed</MenuItem>
                         </Select>
                     </FormControl>
                 </DialogContent>

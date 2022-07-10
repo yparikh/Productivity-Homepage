@@ -37,21 +37,26 @@ export default class CustomModal extends Component {
                 <DialogContent>
                     <TextField
                         fullWidth
-                        margin="normal"
                         required
+                        error={this.state.activeItem.title === ""}
+                        margin="normal"
                         id="outlined-required"
                         label="Title"
                         name="title"
                         value={this.state.activeItem.title}
+                        helperText={"The Title must not be empty"}
                         onChange={this.handleChange}
                         />
                     <TextField
                         fullWidth
+                        required
+                        error={this.state.activeItem.description === ""}
                         margin="normal"
                         id="outlined-name"
                         label="Description"
                         name="description"
                         value={this.state.activeItem.description}
+                        helperText={"The Description must not be empty"}
                         onChange={this.handleChange}/>
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="select-label">Task Progress</InputLabel>

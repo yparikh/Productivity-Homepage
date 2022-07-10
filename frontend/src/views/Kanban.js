@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import {green, indigo, orange, red} from "@mui/material/colors";
+import { useAlert } from "react-alert";
 import {useDrag} from 'react-dnd'
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -52,6 +53,13 @@ class Kanban extends Component {
     };
 
     handleSubmit = (item) => {
+        console.log(item)
+        if (item.description === "" || item.title === "") {
+            console.log("error: bad request");
+            alert.show("Oh look, an alert!");
+
+        }
+
         this.toggle();
 
         if (item.id) {
@@ -231,7 +239,7 @@ class Kanban extends Component {
                                 item
                                 className="NotStarted"
                                 justifyContent="flex-start"
-                                alignContent= "flex-start"
+                                alignContent="flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{
@@ -247,7 +255,7 @@ class Kanban extends Component {
                                 item
                                 className="InProgress"
                                 justifyContent="flex-start"
-                                alignContent= "flex-start"
+                                alignContent="flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{
@@ -261,7 +269,7 @@ class Kanban extends Component {
                                 item
                                 className="Completed"
                                 justifyContent="flex-start"
-                                alignContent= "flex-start"
+                                alignContent="flex-start"
                                 alignItems="flex-start"
                                 spacing={2}
                                 sx={{

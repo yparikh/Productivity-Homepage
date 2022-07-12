@@ -13,7 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import {green, indigo, orange, red} from "@mui/material/colors";
-import { useAlert } from "react-alert";
 import {useDrag} from 'react-dnd'
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";

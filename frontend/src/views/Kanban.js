@@ -53,28 +53,28 @@ class Kanban extends Component {
 
     handleSubmit = (item) => {
         console.log(item)
-        if (item.description === "" || item.title === "") {
-            console.log("error: bad request");
-            alert.show("Oh look, an alert!");
 
-        }
+        if (item.title === "" || item.description === "") {
+            console.log("bad request");
+        } else {
+            this.toggle();
 
-        this.toggle();
-
-        if (item.id) {
+            if (item.id) {
+                axios
+                    .put(`/api / pages / $ {item.id} / `, item)
+                    .then((res) => this.refreshList());
+                return;
+            }
             axios
-                .put(`/api/pages/${item.id}/`, item)
+                .post("/api/pages/", item)
                 .then((res) => this.refreshList());
-            return;
         }
-        axios
-            .post("/api/pages/", item)
-            .then((res) => this.refreshList());
+
     };
 
     handleDelete = (item) => {
         axios
-            .delete(`/api/pages/${item.id}/`)
+            .delete(` / api / pages / $ {item.id} / `)
             .then((res) => this.refreshList());
     };
 

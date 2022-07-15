@@ -1,23 +1,67 @@
 import React, {Component} from "react";
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import Grid from '@mui/material/Grid';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Card from '@mui/material/Card';
 
-
-const drawerWidth = 240;
+import {green, indigo, orange, red} from "@mui/material/colors";
+import NoteDrawer from "../components/NoteDrawer";
 
 class Journal extends Component {
+
+    renderItems = (status) => {
+        const newItems = this
+            .state
+            .todoList
+            .filter((item) => item.progress === status);
+
+        return newItems.map((item) => (
+            <Grid
+                item
+                key={item.id}
+                sx={{
+                minWidth: "100%",
+                p: 2
+            }}>
+                <Card className="generatedCard">
+                    <CardContent>
+                        <Typography variant="h6" component="div">
+                            {item.title}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            {item.description}
+                        </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing={true}>
+                        <IconButton
+                            aria-label="edit"
+                            onClick={() => this.editItem(item)}
+                            size="large"
+                            sx={{
+                            color: indigo[400]
+                        }}>
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton
+                            aria-label="delete"
+                            onClick={() => this.handleDelete(item)}
+                            size="large"
+                            sx={{
+                            color: red[300]
+                        }}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </CardActions>
+                </Card>
+            </Grid>
+        ));
+    };
 
     render() {
         return (
@@ -27,85 +71,59 @@ class Journal extends Component {
                         display: 'flex'
                     }}>
                         <CssBaseline/>
-                        <Drawer
-                            variant="permanent"
-                            sx={{
-                            width: drawerWidth,
-                            flexShrink: 0,
-                            [`& .MuiDrawer-paper`]: {
-                                width: drawerWidth,
-                                boxSizing: 'border-box'
-                            }
-                        }}>
-                            <Toolbar/>
-                            <Box
-                                sx={{
-                                overflow: 'auto'
-                            }}>
-                                <List>
-                                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                                        <ListItem key={text} disablePadding>
-                                            <ListItemButton>
-                                                <ListItemIcon>
-                                                    {index % 2 === 0
-                                                        ? <InboxIcon/>
-                                                        : <MailIcon/>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text}/>
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </List>
-                                <Divider/>
-                                <List>
-                                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                        <ListItem key={text} disablePadding>
-                                            <ListItemButton>
-                                                <ListItemIcon>
-                                                    {index % 2 === 0
-                                                        ? <InboxIcon/>
-                                                        : <MailIcon/>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text}/>
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </Box>
-                        </Drawer>
+                        <NoteDrawer/>
                         <Box
                             component="main"
                             sx={{
                             flexGrow: 1,
                             p: 3
                         }}>
-                            <Toolbar/>
-                            <Typography paragraph>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim
-                                praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet.
-                                Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis
-                                tellus id interdum velit laoreet id donec ultrices. Odio morbi quis commodo odio
-                                aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-                                integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu
-                                scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet
-                                massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                                arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi
-                                tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-                            </Typography>
-                            <Typography paragraph>
-                                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget
-                                nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim neque
-                                volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus.
-                                Purus sit amet volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
-                                Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt ornare massa
-                                eget egestas purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-                                tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant morbi
-                                tristique senectus et. Adipiscing elit duis tristique sollicitudin nibh sit.
-                                Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices
-                                sagittis orci a.
-                            </Typography>
+                            
+
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="flex-start">
+                                <Grid
+                                    item
+                                    //key={item.id}
+                                    sx={{
+                                    p: 2
+                                }}>
+                                    <Card className="noteCard">
+                                        <CardContent>
+                                            <Typography variant="h6" component="div">
+                                                Title
+                                            </Typography>
+                                            <Typography color="text.secondary">
+                                                description
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions disableSpacing={true}>
+                                            <IconButton
+                                                aria-label="edit"
+                                                //onClick={() => this.editItem(item)}
+                                                size="large"
+                                                sx={{
+                                                color: indigo[400]
+                                            }}>
+                                                <EditIcon/>
+                                            </IconButton>
+                                            <IconButton
+                                                aria-label="delete"
+                                                //onClick={() => this.handleDelete(item)}
+                                                size="large"
+                                                sx={{
+                                                color: red[300]
+                                            }}>
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+
+                            </Grid>
                         </Box>
                     </Box>
                 </main>

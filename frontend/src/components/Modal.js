@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 
 
 export default class CustomModal extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,15 +27,15 @@ export default class CustomModal extends Component {
             ...this.state.activeItem,
             [name]: value
         };
-
-        
         this.setState({activeItem});
     };
 
     render() {
-        const {toggle, onSave} = this.props;
+        const {toggle, onSave, onDelete} = this.props;
+        const disabled = this.state.activeItem.justCreated;
+
         return (
-            <Dialog open={true}>
+            <Dialog open={true} onClose={toggle}>
                 <DialogTitle>Kanban Task</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -51,17 +52,16 @@ export default class CustomModal extends Component {
                         />
                     <TextField
                         fullWidth
-                        required
-                        error={this.state.activeItem.description === ""}
                         margin="normal"
-                        id="outlined-name"
+                        id="outlined-multiline-flexible"
+                        multiline
+                        maxRows={4}
                         label="Description"
                         name="description"
                         value={this.state.activeItem.description}
-                        helperText={"The Description must not be empty"}
                         onChange={this.handleChange}/>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel id="select-label">Task Progress</InputLabel>
+                        <InputLabel id="select-label">Progress</InputLabel>
                         <Select
                             labelId="task-progress-select-label"
                             id="task-progress-select"
@@ -76,11 +76,17 @@ export default class CustomModal extends Component {
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
-                        Save
+                    <Button 
+                        color="error" 
+                        disabled = {disabled}
+                        onClick={() => onDelete(this.state.activeItem)}>
+                        Delete
                     </Button>
                     <Button color="primary" onClick={() => toggle()}>
                         Close
+                    </Button>
+                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+                        Save
                     </Button>
                 </DialogActions>
             </Dialog>

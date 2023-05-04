@@ -12,7 +12,7 @@ class Homepage(models.Model):
         (COMPLETED, 'Completed'),
     ]
     title = models.CharField(max_length=120)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     progress = models.IntegerField(choices=PROGRESS_CHOICES, default=NOT_STARTED)
 
     def _str_(self):

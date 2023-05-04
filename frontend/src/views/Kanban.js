@@ -2,18 +2,14 @@ import React, {Component} from "react";
 import Modal from "../components/Modal";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+import {Button} from "@mui/material";
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import ViewColumnIcon from '@mui/icons-material/ViewColumn';
-import {green, indigo, orange, red} from "@mui/material/colors";
-import {useDrag} from 'react-dnd'
+import {ReactSortable} from "react-sortablejs";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -29,7 +25,8 @@ class Kanban extends Component {
             activeItem: {
                 title: "",
                 description: "",
-                progress: 0
+                progress: 0,
+                justCreated: false
             }
         };
     }
@@ -54,14 +51,14 @@ class Kanban extends Component {
     handleSubmit = (item) => {
         console.log(item)
 
-        if (item.title === "" || item.description === "") {
+        if (item.title === "") {
             console.log("bad request");
         } else {
             this.toggle();
 
             if (item.id) {
                 axios
-                    .put(`/api / pages / $ {item.id} / `, item)
+                    .put(`/api/pages/${item.id}/`, item)
                     .then((res) => this.refreshList());
                 return;
             }
@@ -73,16 +70,20 @@ class Kanban extends Component {
     };
 
     handleDelete = (item) => {
+        this.setState({modal: false});
+
         axios
-            .delete(` / api / pages / $ {item.id} / `)
+            .delete(`/api/pages/${item.id}/`)
             .then((res) => this.refreshList());
+
     };
 
     createItem = () => {
         const item = {
             title: "",
             description: "",
-            progress: 0
+            progress: 0,
+            justCreated: true
         };
 
         this.setState({
@@ -113,7 +114,7 @@ class Kanban extends Component {
                 p: 2
             }}>
                 <Card className="generatedCard">
-                    <CardContent>
+                    <CardContent onClick={() => this.editItem(item)}>
                         <Typography variant="h6" component="div">
                             {item.title}
                         </Typography>
@@ -121,26 +122,6 @@ class Kanban extends Component {
                             {item.description}
                         </Typography>
                     </CardContent>
-                    <CardActions disableSpacing={true}>
-                        <IconButton
-                            aria-label="edit"
-                            onClick={() => this.editItem(item)}
-                            size="large"
-                            sx={{
-                            color: indigo[400]
-                        }}>
-                            <EditIcon/>
-                        </IconButton>
-                        <IconButton
-                            aria-label="delete"
-                            onClick={() => this.handleDelete(item)}
-                            size="large"
-                            sx={{
-                            color: red[300]
-                        }}>
-                            <DeleteIcon/>
-                        </IconButton>
-                    </CardActions>
                 </Card>
             </Grid>
         ));
@@ -150,26 +131,35 @@ class Kanban extends Component {
         return (
             <div className="outerDiv">
                 <main className="container">
-                    <Box
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
                         component="div"
                         sx={{
                         display: 'flex'
                     }}>
-                        <ViewColumnIcon
-                            sx={{
-                            mt: 3,
-                            fontSize: 60
-                        }}/>
                         <Typography
                             component="h1"
                             variant="h3"
                             sx={{
-                            ml: 0,
+                            ml: -2,
                             mt: 3
                         }}>
                             Kanban Board
                         </Typography>
-                    </Box>
+                        <Button
+                            variant="contained"
+                            aria-label="addItem"
+                            onClick={this.createItem}
+                            size="small"
+                            sx={{
+                            mt: 5,
+                            backgroundColor: "#48A9A6"
+                        }}>
+                            New Task
+                            <AddBoxIcon/>
+                        </Button>
+                    </Stack>
                     <div className="kanbanBoard">
                         <Box
                             sx={{
@@ -179,114 +169,101 @@ class Kanban extends Component {
                             rowGap: 1,
                             gridTemplateColumns: 'repeat(3, 1fr)'
                         }}>
-                            <Typography
-                                variant="h6"
-                                color={'Black'}
-                                sx={{
-                                ml: 0
-                            }}>
-                                Not Started
-                                <IconButton
-                                    aria-label="addItem"
-                                    onClick={this.createItem}
-                                    size="large"
+                            
+                                <Grid
+                                    container
+                                    item
+                                    className="NotStarted"
+                                    justifyContent="flex-start"
+                                    alignContent="flex-start"
+                                    alignItems="flex-start"
+                                    spacing={2}
                                     sx={{
-                                    ml: 2,
-                                    color: red[300]
+                                    minHeight: 500,
+                                    backgroundColor: "#fbb39d",
+                                    borderRadius: 3,
+                                    p: 0
                                 }}>
-                                    <AddBoxIcon/>
-                                </IconButton>
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                color={'Black'}
-                                sx={{
-                                ml: 0
-                            }}>
-                                In Progress
-                                <IconButton
-                                    aria-label="addItem"
-                                    onClick={this.createItem}
-                                    size="large"
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                        ml: 2,
+                                        mt: 1
+                                    }}>
+                                        Not Started
+                                    </Typography>
+                                    <ReactSortable
+                                    group="shared"
+                                list={this.state.todoList}
+                                setList={(newState) => this.setState({list: newState})}>
+                                    {this.renderItems(0)}
+                                    </ReactSortable>
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    className="InProgress"
+                                    justifyContent="flex-start"
+                                    alignContent="flex-start"
+                                    alignItems="flex-start"
+                                    spacing={2}
                                     sx={{
-                                    ml: 2,
-                                    color: orange[300]
+                                    backgroundColor: "#fbdf9d",
+                                    borderRadius: 3
                                 }}>
-                                    <AddBoxIcon/>
-                                </IconButton>
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                color={'Black'}
-                                sx={{
-                                ml: 0
-                            }}>
-                                Completed
-                                <IconButton
-                                    aria-label="addItem"
-                                    onClick={this.createItem}
-                                    size="large"
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                        ml: 2,
+                                        mt: 1
+                                    }}>
+                                        In Progress
+                                    </Typography>
+                                    <ReactSortable
+                                    group="shared"
+                                list={this.state.todoList}
+                                setList={(newState) => this.setState({list: newState})}>
+                                    {this.renderItems(1)}
+                                    </ReactSortable>
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    className="Completed"
+                                    justifyContent="flex-start"
+                                    alignContent="flex-start"
+                                    alignItems="flex-start"
+                                    spacing={2}
                                     sx={{
-                                    ml: 2,
-                                    color: green[300]
+                                    backgroundColor: "#c8ddbb",
+                                    borderRadius: 3
                                 }}>
-                                    <AddBoxIcon/>
-                                </IconButton>
-                            </Typography>
-                            <Grid
-                                container
-                                item
-                                className="NotStarted"
-                                justifyContent="flex-start"
-                                alignContent="flex-start"
-                                alignItems="flex-start"
-                                spacing={2}
-                                sx={{
-                                minHeight: 500,
-                                backgroundColor: "#EA907A",
-                                borderRadius: 3
-                            }}>
-                                {this.renderItems(0)}
-
-                            </Grid>
-                            <Grid
-                                container
-                                item
-                                className="InProgress"
-                                justifyContent="flex-start"
-                                alignContent="flex-start"
-                                alignItems="flex-start"
-                                spacing={2}
-                                sx={{
-                                backgroundColor: "#FBC687",
-                                borderRadius: 3
-                            }}>
-                                {this.renderItems(1)}
-                            </Grid>
-                            <Grid
-                                container
-                                item
-                                className="Completed"
-                                justifyContent="flex-start"
-                                alignContent="flex-start"
-                                alignItems="flex-start"
-                                spacing={2}
-                                sx={{
-                                backgroundColor: "#BEDBBB",
-                                borderRadius: 3
-                            }}>
-                                {this.renderItems(2)}
-                            </Grid>
-                        </Box>
-                    </div>
-                    {this.state.modal
-                        ? (<Modal
-                            activeItem={this.state.activeItem}
-                            toggle={this.toggle}
-                            onSave={this.handleSubmit}/>)
-                        : null}
-                </main>
-            </div>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                        ml: 2,
+                                        mt: 1
+                                    }}>
+                                        Completed
+                                    </Typography>
+                                    <ReactSortable
+                                    group="shared"
+                                list={this.state.todoList}
+                                setList={(newState) => this.setState({list: newState})}>
+                                    {this.renderItems(2)}
+                                    </ReactSortable>
+                                </Grid>
+                            </Box>
+                        </div>
+                        {this.state.modal
+                            ? (<Modal
+                                activeItem={this.state.activeItem}
+                                toggle={this.toggle}
+                                onSave={this.handleSubmit}
+                                onDelete={this.handleDelete}/>)
+                            : null}
+                    </main>
+                </div>
         );
     }
 }
